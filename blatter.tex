@@ -79,7 +79,7 @@ These notes are an extended, constructive tutorial on computing the velocity fie
 \item how to adequately verify the linear, nonlinear, and boundary condition components of the numerical implementation, and
 \item the amount by which the Blatter solution differs from the SIA solution in the non-sliding case.
 \end{itemize}
-This tutorial also serves as an introduction to a new three-dimensional, parallel-scalable Blatter solver in \cite{BrownSmithAhmadia}.
+This tutorial also serves as an introduction to a new three-dimensional, parallel-scalable Blatter solver in \cite{BrownSmithAhmadia2013}.
 \end{abstract}
 
 \maketitle
@@ -221,7 +221,7 @@ for all $\varphi=\varphi(x,z)\in\Honezero$.
 
 The upper surface III makes no explicit appearance in the integrals in \eqref{weak}, nor in the construction of the solution or test spaces.  Thus so-called ``natural'' boundary conditions apply there.  Also notice that the solution $u\in \HoneD$ and the test functions $\varphi \in \Honezero$ are in distinct spaces if $\alpha(z)\ne 0$ along boundary component II.
 
-The weak form states infinitely-many facts about $u$, because \eqref{weak} holds for each of the infinitely-many test functions $\varphi$.  On the other hand, we could also say that equation \eqref{blatter} applies at infinitely-many points, at each $(x,z)\in \Omega$.  In any case, it is known that the weak form is a ``good'' mathematical problem, because it actually has a solution and only one solution in rather general circumstances.\footnote{Proofs for the fully-nonlinear Blatter problem are in \cite[theorem 2.1]{RappazReist05} and \cite[theorem 4.2]{SchoofCoulombBlatter}.}  The derivation above shows that a strong solution (of \eqref{blatter}) is also a weak solution (of \eqref{weak}).  The weak form can, however, have a unique solution which is not smooth enough to make sense of the derivatives in the strong form \cite{Evans}.  The three-dimensional weak form of the Blatter equations appears in \cite{BrownSmithAhmadia} and \cite{SchoofCoulombBlatter}.
+The weak form states infinitely-many facts about $u$, because \eqref{weak} holds for each of the infinitely-many test functions $\varphi$.  On the other hand, we could also say that equation \eqref{blatter} applies at infinitely-many points, at each $(x,z)\in \Omega$.  In any case, it is known that the weak form is a ``good'' mathematical problem, because it actually has a solution and only one solution in rather general circumstances.\footnote{Proofs for the fully-nonlinear Blatter problem are in \cite[theorem 2.1]{RappazReist05} and \cite[theorem 4.2]{SchoofCoulombBlatter}.}  The derivation above shows that a strong solution (of \eqref{blatter}) is also a weak solution (of \eqref{weak}).  The weak form can, however, have a unique solution which is not smooth enough to make sense of the derivatives in the strong form \cite{Evans}.  The three-dimensional weak form of the Blatter equations appears in \cite{BrownSmithAhmadia2013} and \cite{SchoofCoulombBlatter}.
 
 The weak form is used to construct finite element approximations (next section), in contrast with finite difference methods which discretize the strong form.  As already said, in the finite element method we will generate algebraic equations from equation \eqref{weak} using a finite list of test functions $\varphi$ generated from a mesh on $\Omega$.  In section \ref{sec:nonlinear} we return to the (continuum) weak form and state it correctly for the fully nonlinear, viscosity-regularized Blatter equation.
 
@@ -506,7 +506,7 @@ Consider integral $Y^{ij}_r$ defined in equation \eqref{quadijfcns}.  Using \eqr
 \end{align}
 The integrand in \eqref{integralforY} is fully determined by the input geometry function $h(x)$ and by additional local information about the quadrilateral $\quadij$, especially equations \eqref{chidefns} and \eqref{jacobianij}.  Note that both $x(\xi,\zeta)$ and $J(\xi,\zeta)$ depend on the particular quadrilateral, though the notation does not make this obvious.
 
-We finally have a concrete function to integrate, but it remains too hard to do ``by hand''.\footnote{The integrand in \eqref{integralforY} is a polynomial in $\xi$ and $\zeta$, assuming a polygonal domain so that $h'$ is actually constant on (above) $\quadij$.  Similarly, integrals $X^{ij}_{rs}$ have rational integrands if $\nu(x,z)$ is rational or polynomial.  Thus these integrals \emph{could} be done exactly using antiderivatives.  Alternatively we could use sufficiently-many Gauss quadrature points so that the numerical integration is exact.}  We follow the standard approach, namely, to use Gaussian quadrature \cite[subsection 1.4.2]{Elmanetal2005}.  Among the simplest quadrature rules is the ``$m=2$'' point tensor product method used by \cite{BrownSmithAhmadia}.  Let $w_{pq}=1$ and let $\xi_1=\zeta_1=-\omega$ and $\xi_2=\zeta_2=+\omega$ where $\omega=1/\sqrt{3}=0.57735$ \cite[compare $m=2$ cases of Figure 1.15 and formula (1.52)]{Elmanetal2005}.  Then
+We finally have a concrete function to integrate, but it remains too hard to do ``by hand''.\footnote{The integrand in \eqref{integralforY} is a polynomial in $\xi$ and $\zeta$, assuming a polygonal domain so that $h'$ is actually constant on (above) $\quadij$.  Similarly, integrals $X^{ij}_{rs}$ have rational integrands if $\nu(x,z)$ is rational or polynomial.  Thus these integrals \emph{could} be done exactly using antiderivatives.  Alternatively we could use sufficiently-many Gauss quadrature points so that the numerical integration is exact.}  We follow the standard approach, namely, to use Gaussian quadrature \cite[subsection 1.4.2]{Elmanetal2005}.  Among the simplest quadrature rules is the ``$m=2$'' point tensor product method used by \cite{BrownSmithAhmadia2013}.  Let $w_{pq}=1$ and let $\xi_1=\zeta_1=-\omega$ and $\xi_2=\zeta_2=+\omega$ where $\omega=1/\sqrt{3}=0.57735$ \cite[compare $m=2$ cases of Figure 1.15 and formula (1.52)]{Elmanetal2005}.  Then
 \begin{equation}
   Y^{ij}_r \approx -\rho g \sum_{p=1}^2 \sum_{q=1}^2 w_{pq}\, h'(x_{pq})\,\chi_{rpq} |J_{pq}| \label{Yapprox}
 \end{equation}
@@ -671,7 +671,7 @@ noting $p-2 = (1-n)/n$.
 
 Note that Glen power law ice rheology with $1<n<\infty$ corresponds to $1<p<2$.  The typical glaciological case $n=3$ is $p=4/3$.
 
-FIXME:  Picard has been used a lot, e.g.~\cite{Pattyn03}, but Brown and others \cite{BrownSmithAhmadia} use Newton, which is what we do next.
+FIXME:  Picard has been used a lot, e.g.~\cite{Pattyn03}, but Brown and others \cite{BrownSmithAhmadia2013} use Newton, which is what we do next.
 
 \subsection*{Newton's iterative scheme, for nonlinear viscosity}  We consider the discrete problem to be in the very general form
 \begin{equation}
@@ -756,10 +756,10 @@ We wish to compare the Blatter and SIA models.  If we compare the horizontal vel
 
 
 \newpage
-\section{Conclusion}  The method we have used is meant to be effective for whole ice sheet problems.  Indeed, Brown and others \cite{BrownSmithAhmadia} show that this method can be implemented in parallel to be many times faster than previous methods and to be weakly-scalable in the sense that more parallel processors can handle proportionally finer grids in the same amount of time.  FIXME: complete
+\section{Conclusion}  The method we have used is meant to be effective for whole ice sheet problems.  Indeed, Brown and others \cite{BrownSmithAhmadia2013} show that this method can be implemented in parallel to be many times faster than previous methods and to be weakly-scalable in the sense that more parallel processors can handle proportionally finer grids in the same amount of time.  FIXME: complete
 
 \newpage
-\bibliography{ice_bib}
+\bibliography{ice-bib}
 \bibliographystyle{siam}
 
 
@@ -795,7 +795,7 @@ Multiplying through by $2\eps\lambda$ gives and equation without the scaling par
 \begin{equation}
 - 4 \eps^2 u_x h' + u_z = 0.  \label{sweet}
 \end{equation}
-Returning to dimensional coordinates gives \eqref{upper}.  This is the upper surface condition stated by Pattyn \cite{Pattyn03} and Rappaz and Reist \cite{RappazReist05}, and as used without explanation by Brown et al.~\cite{BrownSmithAhmadia}.
+Returning to dimensional coordinates gives \eqref{upper}.  This is the upper surface condition stated by Pattyn \cite{Pattyn03} and Rappaz and Reist \cite{RappazReist05}, and as used without explanation by Brown et al.~\cite{BrownSmithAhmadia2013}.
 
 
 \newpage
